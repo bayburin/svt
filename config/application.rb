@@ -23,6 +23,7 @@ module Inv
         origins 'http://lk-3-dev', 'https://lk-test-3.iss-reshetnev.ru'
         resource '/lk_invents/init/*', :headers => :any, :methods => [:get]
         resource '/lk_invents/show_division_data/*', :headers => :any, :methods => [:get]
+        resource '/workplaces/', :headers => :any, :methods => [:post]
       end
     end
   end
