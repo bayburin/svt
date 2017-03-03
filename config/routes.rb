@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  devise_for :users, controllers: { omniauth_callbacks: 'users/callbacks' }
 
-  root 'workplaces#index'
+  authenticated :user do
+    root 'workplaces#index', as: :authenticated_root
+  end
+
+  devise_scope :user do
+    root 'devise/sessions#new'
+  end
 
   # Инвентаризация
   resources :workplaces, param: :workplace_id
@@ -16,6 +22,8 @@ Rails.application.routes.draw do
   get 'lk_invents/init/:tn', to: 'lk_invents#init', constraints: { tn: /\d+/ }
   # Получить данные по выбранном отделу (список РМ, макс. число, список работников отдела)
   get 'lk_invents/show_division_data/:division', to: 'lk_invents#show_division_data', constraints: { division: /\d+/ }
+  # Записать данные о РМ
+  post 'lk_invents/create_workplace', to: 'lk_invents#create_workplace'
 
   # Эталоны
   resources :system_units
