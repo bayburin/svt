@@ -26,14 +26,14 @@ module Inv
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins   'http://lk-3-dev', 'https://lk-test-3.iss-reshetnev.ru'
-        resource  '/lk_invents/init/*', :headers => :any, :methods => [:get]
-        resource  '/lk_invents/show_division_data/*', :headers => :any, :methods => [:get]
-        resource  '/lk_invents/get_data_from_audit/*', :headers => :any, :methods => [:get]
-        resource  '/lk_invents/create_workplace/', :headers => :any, :methods => [:post]
-        resource  '/lk_invents/edit_workplace/*', :headers => :any, :methods => [:get]
-        resource  '/lk_invents/update_workplace/*', :headers => :any, :methods => [:patch]
-        resource  '/lk_invents/delete_workplace/*', :headers => :any, :methods => [:delete]
-        resource  '/lk_invents/generate_pdf/*', :headers => :any, :methods => [:get]
+        resource  '/inventory/lk_invents/init/*', :headers => :any, :methods => [:get]
+        resource  '/inventory/lk_invents/show_division_data/*', :headers => :any, :methods => [:get]
+        resource  '/inventory/lk_invents/get_data_from_audit/*', :headers => :any, :methods => [:get]
+        resource  '/inventory/lk_invents/create_workplace/', :headers => :any, :methods => [:post]
+        resource  '/inventory/lk_invents/edit_workplace/*', :headers => :any, :methods => [:get]
+        resource  '/inventory/lk_invents/update_workplace/*', :headers => :any, :methods => [:patch]
+        resource  '/inventory/lk_invents/delete_workplace/*', :headers => :any, :methods => [:delete]
+        resource  '/inventory/lk_invents/generate_pdf/*', :headers => :any, :methods => [:get]
       end
     end
   end
