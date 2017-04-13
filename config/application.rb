@@ -25,7 +25,7 @@ module Inv
     # Provides support for Cross-Origin Resource Sharing (CORS)
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins   'http://lk-3-dev', 'https://lk-test-3.iss-reshetnev.ru'
+        origins   'http://lk-3-dev', 'https://lk-test-3.iss-reshetnev.ru', 'http://lk-test-3.iss-reshetnev.ru'
         resource  '/inventory/lk_invents/init/*', :headers => :any, :methods => [:get]
         resource  '/inventory/lk_invents/show_division_data/*', :headers => :any, :methods => [:get]
         resource  '/inventory/lk_invents/get_data_from_audit/*', :headers => :any, :methods => [:get]
