@@ -22,8 +22,8 @@ Rails.application.routes.draw do
     # Получить данные по выбранном отделу (список РМ, макс. число, список работников отдела)
     get 'lk_invents/show_division_data/:division', to: 'lk_invents#show_division_data', constraints: { division: /\d+/ }
     # Получить данные о системном блоке из аудита
-    get 'lk_invents/get_data_from_audit/:invent_num',
-        to: 'lk_invents#get_data_from_audit',
+    get 'lk_invents/data_from_audit/:invent_num',
+        to: 'lk_invents#data_from_audit',
         constraints: { invent_num: /.*/ }
     # Записать данные о РМ
     post 'lk_invents/create_workplace', to: 'lk_invents#create_workplace'
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     # Создать PDF файл со списком РМ для отдела
     get 'lk_invents/generate_pdf/:division', to: 'lk_invents#generate_pdf', constraints: { division: /\d+/ }
     # Скачать скрипт для генерации файла конфигурации ПК
-    get 'lk_invents/get_pc_script', to: 'lk_invents#send_pc_script'
+    get 'lk_invents/pc_script', to: 'lk_invents#send_pc_script'
   end
 
   # Эталоны
