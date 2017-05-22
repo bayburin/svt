@@ -18,12 +18,12 @@ Rails.application.routes.draw do
 
     # Запросы с ЛК
     # Инициализация
-    get 'lk_invents/init/:id_tn', to: 'lk_invents#init', constraints: { id_tn: /\d+/ }
+    get 'lk_invents/init_properties/:id_tn', to: 'lk_invents#init_properties', constraints: { id_tn: /\d+/ }
     # Получить данные по выбранном отделу (список РМ, макс. число, список работников отдела)
     get 'lk_invents/show_division_data/:division', to: 'lk_invents#show_division_data', constraints: { division: /\d+/ }
     # Получить данные о системном блоке из аудита
-    get 'lk_invents/data_from_audit/:invent_num',
-        to: 'lk_invents#data_from_audit',
+    get 'lk_invents/pc_config_from_audit/:invent_num',
+        to: 'lk_invents#pc_config_from_audit',
         constraints: { invent_num: /.*/ }
     # Записать данные о РМ
     post 'lk_invents/create_workplace', to: 'lk_invents#create_workplace'
