@@ -17,14 +17,10 @@ Role.create(
 User.create(
   [
     {
+      id_tn: 12_880,
       tn: 17_664,
       fullname: 'Байбурин Равиль Фаильевич',
       role: Role.find_by(name: 'admin')
-    },
-    {
-      tn: 999_999,
-      fullname: 'Пользователь ЛК',
-      role: Role.find_by(name: 'lk_user')
     }
   ]
 )
