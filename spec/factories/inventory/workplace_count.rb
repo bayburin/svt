@@ -2,7 +2,7 @@ module Inventory
   FactoryGirl.define do
     factory :workplace_count, class: WorkplaceCount do
       status WorkplaceCount.statuses['Разблокирован']
-      division { users.empty? ? 714 : users.first.division }
+      division { users.empty? ? 715 : users.first.division }
 
       transient do
         # Массив пользователей, созданный фабрикой user.
