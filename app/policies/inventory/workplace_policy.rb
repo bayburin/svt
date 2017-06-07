@@ -2,13 +2,27 @@ module Inventory
   class WorkplacePolicy < ApplicationPolicy
     # Есть ли у пользователя доступ на создание РМ указанного отдела.
     def create?
-      division_access? && time_not_passed?
+      division_access? && allowed_time?
     end
 
-    # Есть ли у пользователя доступ на редактирование РМ указанного отдела. Пользователь с ролью, отличной от :lk_user,
-    # могут просматривать РМ в любое время.
+    # Если роль 'lk_user': есть ли у пользователя доступ на редактирование РМ указанного отдела.
+    # Иначе: доступ есть.
     def edit?
-      @user.has_role?(:lk_user) ? division_access? && time_not_passed? && !confirmed? : true
+      @user.has_role?(:lk_user) ? division_access? && allowed_time? && !confirmed? : true
+    end
+
+    # Если роль 'lk_user': есть ли у пользователя доступ на редактирование РМ указанного отдела.
+    # Если роль не 'lk_user', но ответственный за отдел (администратор и ответственный за отдел в одном лице): доступ
+    #   есть
+    # Для остальных: можно обновлять данные только по истечении разрешенного пользователям ЛК времени редактирования.
+    def update?
+      if @user.has_role?(:lk_user)
+        division_access? && allowed_time? && !confirmed?
+      elsif division_access?
+        true
+      else
+        !allowed_time?
+      end
     end
 
     class Scope < Scope
@@ -30,7 +44,7 @@ module Inventory
     end
 
     # Не прошло ли разрешенное время редактирования.
-    def time_not_passed?
+    def allowed_time?
       Time.zone.today.between? @record.workplace_count.time_start, @record.workplace_count.time_end
     end
 
