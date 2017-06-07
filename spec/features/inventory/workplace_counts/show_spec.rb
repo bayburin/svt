@@ -40,10 +40,10 @@ module Inventory
                 .to have_field('workplace_count_division', with: workplace_count.division)
 
               within all('.internal-table > tbody > tr').first do
-                puts bayburin_user.fullname
-                puts find('input[id="workplace_count_users.fullname"]').value
-
-                expect(page).to have_field('workplace_count_users.tn', with: bayburin_user.tn)
+                expect(page).to have_field(
+                  'workplace_count_users.tn',
+                  with: bayburin_user.tn, disabled: true
+                )
                 expect(page).to have_field(
                   'workplace_count_users.fullname',
                   with: bayburin_user.fullname, disabled: true

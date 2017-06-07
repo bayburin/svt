@@ -21,4 +21,8 @@ FactoryGirl.define do
     fullname 'Байбурин Равиль Фаильевич'
     association :role, factory: :lk_user_role
   end
+
+  factory :invalid_user, class: User do
+    tn 123321
+  end
 end
