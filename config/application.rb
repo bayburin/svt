@@ -35,7 +35,7 @@ module Inv
         resource '/inventory/lk_invents/create_workplace*', headers: :any, methods: [:post]
         resource '/inventory/lk_invents/edit_workplace*', headers: :any, methods: [:get]
         resource '/inventory/lk_invents/update_workplace*', headers: :any, methods: [:patch]
-        resource '/inventory/lk_invents/delete_workplace*', headers: :any, methods: [:delete]
+        resource '/inventory/lk_invents/destroy_workplace*', headers: :any, methods: [:delete]
         resource '/inventory/lk_invents/generate_pdf*', headers: :any, methods: [:get]
         resource '/inventory/lk_invents/get_pc_script*', headers: :any, methods: [:get]
       end

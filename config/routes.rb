@@ -36,8 +36,8 @@ Rails.application.routes.draw do
           to: 'lk_invents#update_workplace',
           constraints: { workplace_id: /\d+/ }
     # Удалить РМ
-    delete 'lk_invents/delete_workplace/:workplace_id',
-           to: 'lk_invents#delete_workplace',
+    delete 'lk_invents/destroy_workplace/:workplace_id',
+           to: 'lk_invents#destroy_workplace',
            constraints: { workplace_id: /\d+/ }
     # Создать PDF файл со списком РМ для отдела
     get 'lk_invents/generate_pdf/:division', to: 'lk_invents#generate_pdf', constraints: { division: /\d+/ }
