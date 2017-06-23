@@ -1,11 +1,11 @@
 development:
-  hostname: inv-dev
+  hostname: inv-dev.iss-reshetnev.ru
 
 test:
-  hostname: inv-dev
+  hostname: inv-dev.iss-reshetnev.ru
 
 staging:
-  hostname: staging-svt
+  hostname: staging-svt.iss-reshetnev.ru
 
 production:
-  hostname: svt
+  hostname: svt.iss-reshetnev.ru
