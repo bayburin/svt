@@ -15,7 +15,11 @@ module Inventory
       if @properties.run
         render json: @properties.data
       else
-        render json: { full_message: 'Обратитесь к администратору, т.50-32' }, status: 422
+        if @properties.data[:divisions].nil?
+          raise Pundit::NotAuthorizedError, 'Access denied'
+        else
+          render json: { full_message: 'Обратитесь к администратору, т.50-32' }, status: 422
+        end
       end
     end
 
