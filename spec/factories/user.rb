@@ -1,13 +1,28 @@
 FactoryGirl.define do
   factory :user do
-    tn    17664
-    info  'Байбурин Равиль Фаильевич'
+    id_tn 110
+    tn 101_101
+    phone '50-50'
+    division 714
+    email nil
+    login 'TestLK'
+    fullname 'Тест Личного кабинета'
+    password 'xxxx1234'
     association :role, factory: :admin_role
   end
 
-  factory :lk_user, class: User do
-    tn    999999
-    info  'Пользователь ЛК'
+  factory :bayburin_user, class: User do
+    id_tn 12880
+    tn 17664
+    phone '50-32'
+    division 714
+    email 'bayburin@iss-reshetnev.ru'
+    login 'BayburinRF'
+    fullname 'Байбурин Равиль Фаильевич'
     association :role, factory: :lk_user_role
+  end
+
+  factory :invalid_user, class: User do
+    tn 123321
   end
 end
