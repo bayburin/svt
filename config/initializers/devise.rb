@@ -250,7 +250,7 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :open_id_lk,
                   server: 'https://lk.iss-reshetnev.ru/tools/openid/server',
-                  identity: "https://#{SERVER_CONFIG['hostname']}/users/auth/open_id_lk/callback",
+                  identity: "http://#{ENV['APPNAME']}/users/auth/open_id_lk/callback",
                   mandatory_fields: %i[email fullname login tn]
 
   # ==> Warden configuration
