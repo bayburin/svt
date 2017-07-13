@@ -26,5 +26,4 @@ class Users::CallbacksController < Devise::OmniauthCallbacksController
     flash[:alert] = 'Ошибка авторизации. Обратитесь к администратору по тел. 50-32'
     redirect_to new_user_session_path
   end
-
 end
