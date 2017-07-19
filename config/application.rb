@@ -32,6 +32,7 @@ module Inv
         origins 'https://lk-3-dev.iss-reshetnev.ru', 'https://lk-3-dev.npopm``.ru',
                 'https://lk-test-3.iss-reshetnev.ru', 'https://lk-test-3.npopm.ru',
                 'https://lk.iss-reshetnev.ru', 'https://lk.npopm.ru'
+        resource '/inventory/lk_invents/svt_access*', headers: :any, methods: [:get]
         resource '/inventory/lk_invents/init_properties*', headers: :any, methods: [:get]
         resource '/inventory/lk_invents/show_division_data*', headers: :any, methods: [:get]
         resource '/inventory/lk_invents/pc_config_from_audit*', headers: :any, methods: [:get]
