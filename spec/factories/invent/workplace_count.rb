@@ -1,7 +1,6 @@
 module Invent
   FactoryGirl.define do
     factory :workplace_count, class: WorkplaceCount do
-      status WorkplaceCount.statuses['Разблокирован']
       division { users.empty? ? 715 : users.first.division }
       users []
 
