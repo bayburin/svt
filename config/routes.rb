@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/callbacks' }
 
   authenticated :user do
-    root 'inventory/workplaces#index', as: :authenticated_root
+    root 'invent/workplaces#index', as: :authenticated_root
   end
 
   devise_scope :user do
@@ -10,9 +10,11 @@ Rails.application.routes.draw do
   end
 
   # Инвентаризация
-  namespace :inventory do
+  namespace :invent do
     # Отделы
-    resources :workplace_counts, param: :workplace_count_id, except: :edit
+    resources :workplace_counts, param: :workplace_count_id, except: :edit do
+      post 'create_list', to: 'workplace_counts#create_list', on: :collection
+    end
     # Рабочие места
     resources :workplaces, param: :workplace_id do
       collection do
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
     end
 
     # Запросы с ЛК
+    # Проверка доступа к разделу "Вычислительная техника" в ЛК.
+    get 'lk_invents/svt_access', to: 'lk_invents#svt_access'
     # Инициализация
     get 'lk_invents/init_properties', to: 'lk_invents#init_properties'
     # Получить данные по выбранном отделу (список РМ, макс. число, список работников отдела)
@@ -58,7 +62,7 @@ Rails.application.routes.draw do
 
   # Эталоны
   namespace :standart do
-    resources :system_units
+
   end
 
   # Получить html-код кнопки "Добавить запись"

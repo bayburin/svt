@@ -1,8 +1,6 @@
 module Standart
-  class LogDetail < ApplicationRecord
+  class LogDetail < BaseStandart
     belongs_to :log
-    belongs_to :detail_type
-
-    validates :log_id, :detail_type_id, presence: true
+    belongs_to :inv_property, class_name: 'Invent::InvProperty', foreign_key: 'property_id'
   end
 end

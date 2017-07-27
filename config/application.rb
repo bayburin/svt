@@ -12,7 +12,7 @@ module Inv
     config.app_generators.scaffold_controller :responders_controller
 
     config.assets.enabled = true
-    
+
     config.force_ssl = true
     config.ssl_options = { domain: 'iss-reshetnev.ru' }
 
@@ -29,16 +29,19 @@ module Inv
     # Provides support for Cross-Origin Resource Sharing (CORS)
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'https://lk-3-dev.iss-reshetnev.ru', 'https://lk-test-3.iss-reshetnev.ru', 'https://lk-test-3.npopm.ru'
-        resource '/inventory/lk_invents/init_properties*', headers: :any, methods: [:get]
-        resource '/inventory/lk_invents/show_division_data*', headers: :any, methods: [:get]
-        resource '/inventory/lk_invents/pc_config_from_audit*', headers: :any, methods: [:get]
-        resource '/inventory/lk_invents/create_workplace*', headers: :any, methods: [:post]
-        resource '/inventory/lk_invents/edit_workplace*', headers: :any, methods: [:get]
-        resource '/inventory/lk_invents/update_workplace*', headers: :any, methods: [:patch]
-        resource '/inventory/lk_invents/destroy_workplace*', headers: :any, methods: [:delete]
-        resource '/inventory/lk_invents/generate_pdf*', headers: :any, methods: [:get]
-        resource '/inventory/lk_invents/get_pc_script*', headers: :any, methods: [:get]
+        origins 'https://lk-3-dev.iss-reshetnev.ru', 'https://lk-3-dev.npopm``.ru',
+                'https://lk-test-3.iss-reshetnev.ru', 'https://lk-test-3.npopm.ru',
+                'https://lk.iss-reshetnev.ru', 'https://lk.npopm.ru', 'http://koza'
+        resource '/invent/lk_invents/svt_access*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/init_properties*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/show_division_data*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/pc_config_from_audit*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/create_workplace*', headers: :any, methods: [:post]
+        resource '/invent/lk_invents/edit_workplace*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/update_workplace*', headers: :any, methods: [:patch]
+        resource '/invent/lk_invents/destroy_workplace*', headers: :any, methods: [:delete]
+        resource '/invent/lk_invents/generate_pdf*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/get_pc_script*', headers: :any, methods: [:get]
       end
     end
 

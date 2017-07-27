@@ -31,7 +31,7 @@ module ServiceMacros
   end
 
   def update_workplace_attributes(current_user, workplace_id, **params)
-    wp = Inventory::LkInvents::EditWorkplace.new(current_user, workplace_id)
+    wp = Invent::LkInvents::EditWorkplace.new(current_user, workplace_id)
     wp.run
     # Меняем общие аттрибуты рабочего места
     wp.data['location_room_name'] = params[:room].name
@@ -44,7 +44,6 @@ module ServiceMacros
     new_mon['inv_property_values_attributes'].each { |prop_val| prop_val['id'] = nil }
 
     wp.data['inv_items_attributes'] << new_mon
-
     wp.data
   end
 end

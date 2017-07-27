@@ -40,7 +40,6 @@ server 'dc', user: 'deployer', roles: %w[web app db]
 # Repo details
 set :rbenv_ruby, '2.3.1'
 set :repo_url, '/var/repos/inv.git'
-set :branch, 'master'
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 
 set :keep_releases, 5
@@ -64,12 +63,25 @@ namespace :deploy do
   end
 end
 
-desc 'Reset database and add default data'
+desc 'Add default data to the database'
 task :seed do
   on primary fetch(:migration_role) do
     within release_path do
       with rails_env: fetch(:rails_env) do
         execute :rake, 'db:seed'
+      end
+    end
+  end
+end
+
+desc 'Run :drop, :create and :migrate database'
+task :recreate_db do
+  on primary fetch(:migration_role) do
+    within release_path do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, 'db:drop'
+        execute :rake, 'db:create'
+        execute :rake, 'db:migrate'
       end
     end
   end

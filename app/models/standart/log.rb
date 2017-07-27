@@ -1,12 +1,8 @@
-module Standart
-  class Log < ApplicationRecord
-    has_many :log_details
+module  Standart
+  class Log < BaseStandart
+    belongs_to :inv_item, class_name: 'Invent::InvItem', foreign_key: 'item_id'
+    belongs_to :user
 
-    belongs_to :system_unit
-
-    validates :system_unit_id, :event, presence: true
-    # валидацию :user_id добавить, когда появится таблица users
-
-    enum event: ['Эталон создан', 'Эталон изменен', 'Изменения подтверждены']
+    enum event: { add: 0, change: 1, approve: 2 }
   end
 end

@@ -4,14 +4,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :trackable, :timeoutable, :omniauthable,
          omniauth_providers: %i[open_id_lk check_lk_auth], authentication_keys: [:login]
 
-  has_many :workplace_responsibles, class_name: 'Inventory::WorkplaceResponsible', inverse_of: :user
-  has_many :workplace_counts, through: :workplace_responsibles, class_name: 'Inventory::WorkplaceCount'
+  has_many :workplace_responsibles, class_name: 'Invent::WorkplaceResponsible', inverse_of: :user
+  has_many :workplace_counts, through: :workplace_responsibles, class_name: 'Invent::WorkplaceCount'
 
   belongs_to :role
   belongs_to :user_iss, foreign_key: 'id_tn'
 
   validates :tn, presence: true, uniqueness: true
   validates :id_tn, uniqueness: { message: :tn_already_exists }
+
+  after_validation :replace_nil
 
   # Для тестов.
   attr_accessor :login, :email, :division, :tel
@@ -43,5 +45,11 @@ class User < ApplicationRecord
 
   def email_changed?
     false
+  end
+
+  private
+
+  def replace_nil
+    self.phone = '' if phone.nil?
   end
 end
