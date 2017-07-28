@@ -36,6 +36,7 @@ module Inv
         resource '/invent/lk_invents/init_properties*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/show_division_data*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/pc_config_from_audit*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/pc_config_from_user*', headers: :any, methods: [:post]
         resource '/invent/lk_invents/create_workplace*', headers: :any, methods: [:post]
         resource '/invent/lk_invents/edit_workplace*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/update_workplace*', headers: :any, methods: [:patch]

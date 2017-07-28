@@ -40,6 +40,8 @@ Rails.application.routes.draw do
     get 'lk_invents/pc_config_from_audit/:invent_num',
         to: 'lk_invents#pc_config_from_audit',
         constraints: { invent_num: /.*/ }
+    # Расшифровать файл конфигурации ПК, загруженный пользователем.
+    post 'lk_invents/pc_config_from_user', to: 'lk_invents#pc_config_from_user'
     # Записать данные о РМ
     post 'lk_invents/create_workplace', to: 'lk_invents#create_workplace'
     # Получить данные о РМ
