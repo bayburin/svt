@@ -1,12 +1,16 @@
 module Invent
   class WorkplaceCountPolicy < ApplicationPolicy
     # Если роль 'lk_user': есть ли у пользователя доступ к указанному отделу.
-    # Иначе: доступ есть.
+    # Если роль 'manager': доступ есть.
     def generate_pdf?
+      return true if admin?
+
       if @user.has_role? :lk_user
         division_access?
-      else
+      elsif @user.has_role? :manager
         true
+      else
+        false
       end
     end
 
