@@ -22,6 +22,17 @@ FactoryGirl.define do
     association :role, factory: :lk_user_role
   end
 
+  factory :kucherenko_user, class: User do
+    id_tn 5336
+    tn 24079
+    phone '39-45'
+    division 714
+    email 'v714@iss-reshetnev.ru'
+    login 'KucherenkoVN'
+    fullname 'Кучеренко Виктор Николаевич'
+    association :role, factory: :manager_role
+  end
+
   factory :invalid_user, class: User do
     tn 123321
   end

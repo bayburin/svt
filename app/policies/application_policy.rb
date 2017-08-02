@@ -11,6 +11,10 @@ class ApplicationPolicy
     !user.has_role? :lk_user
   end
 
+  def admin?
+    user.has_role? :admin
+  end
+
   class Scope
     attr_reader :user, :scope
 
