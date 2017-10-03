@@ -12,8 +12,8 @@ FactoryGirl.define do
   end
 
   factory :bayburin_user, class: User do
-    id_tn 12880
-    tn 17664
+    id_tn 12_880
+    tn 17_664
     phone '50-32'
     division 714
     email 'bayburin@iss-reshetnev.ru'
@@ -24,7 +24,7 @@ FactoryGirl.define do
 
   factory :kucherenko_user, class: User do
     id_tn 5336
-    tn 24079
+    tn 24_079
     phone '39-45'
     division 714
     email 'v714@iss-reshetnev.ru'
@@ -34,6 +34,7 @@ FactoryGirl.define do
   end
 
   factory :invalid_user, class: User do
-    tn 123321
+    id_tn 111_222
+    tn 123_321
   end
 end
