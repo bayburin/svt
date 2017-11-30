@@ -4,8 +4,8 @@ RSpec.describe UserIssesController, type: :controller do
   sign_in_user
 
   describe 'GET #users_from_division' do
-    let(:user) { create :bayburin_user }
-    let!(:workplace_count) { create :active_workplace_count, division: 714, users: [user] }
+    let(:user) { create(:bayburin_user) }
+    let!(:workplace_count) { create(:active_workplace_count, division: 714, users: [user]) }
 
     it 'creates instance of the WorkplaceCounts::Index class' do
       get :users_from_division, params: { division: workplace_count.division }, format: :json

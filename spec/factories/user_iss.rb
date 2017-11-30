@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user_iss do
     tn 101_101
     dept 714
@@ -34,7 +34,7 @@ FactoryGirl.define do
     duty_code 0
     fio_initials 'Байбурин Р.Ф.'
     category 4
-    id_tn 12880
+    id_tn 12_880
     dept_kadr 714
     decret false
   end
