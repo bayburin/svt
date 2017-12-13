@@ -8,7 +8,10 @@ FactoryBot.define do
     login 'TestLK'
     fullname 'Тест Личного кабинета'
     password 'xxxx1234'
-    association :role, factory: :admin_role
+
+    after(:build) do |user|
+      user.role = Role.find_by(name: :admin) || create(:admin_role)
+    end
   end
 
   factory :bayburin_user, class: User do
@@ -19,7 +22,10 @@ FactoryBot.define do
     email 'bayburin@iss-reshetnev.ru'
     login 'BayburinRF'
     fullname 'Байбурин Равиль Фаильевич'
-    association :role, factory: :lk_user_role
+
+    after(:build) do |user|
+      user.role = Role.find_by(name: :lk_user) || create(:lk_user_role)
+    end
   end
 
   factory :kucherenko_user, class: User do
@@ -31,6 +37,10 @@ FactoryBot.define do
     login 'KucherenkoVN'
     fullname 'Кучеренко Виктор Николаевич'
     association :role, factory: :manager_role
+
+    after(:build) do |user|
+      user.role = Role.find_by(name: :manager) || create(:manager_role)
+    end
   end
 
   factory :invalid_user, class: User do
