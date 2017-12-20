@@ -63,7 +63,7 @@ Rails.application.routes.draw do
     # Скачать скрипт для генерации файла конфигурации ПК
     get 'lk_invents/pc_script', to: 'lk_invents#send_pc_script'
 
-    resources :items, only: :index
+    resources :items, only: [:index, :show], param: :item_id
   end
 
   # Эталоны
