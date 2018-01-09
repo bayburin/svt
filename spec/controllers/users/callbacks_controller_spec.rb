@@ -34,7 +34,7 @@ module Users
               expect(response).to redirect_to new_user_session_path
             end
 
-            it { should set_flash[:alert].to 'Ошибка авторизации. Обратитесь к администратору по тел. 50-32' }
+            it { should set_flash[:alert].to 'Ошибка. Обратитесь к администратору, т.50-32' }
           end
         end
 
