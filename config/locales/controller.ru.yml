@@ -3,6 +3,9 @@ ru:
     app:
       access_denied: 'Доступ запрещен'
       unprocessable_entity: 'Ошибка. Обратитесь к администратору, т.50-32'
+    lk_invents:
+      unprocessable_entity: 'Обратитесь к администратору, т.50-32'
+      file_added: 'Файл добавлен'
     workplace:
       created: 'Рабочее место создано'
       updated: 'Данные о рабочем месте обновлены'
@@ -13,6 +16,5 @@ ru:
       list_created: 'Список отделов и ответственных обновлен'
       updated: 'Данные одела %{dept} обновлены'
       destroyed: 'Отдел удален'
-    lk_invents:
-      unprocessable_entity: 'Обратитесь к администратору, т.50-32'
-      file_added: 'Файл добавлен'
+    order:
+      destroyed: 'Ордер удален'
