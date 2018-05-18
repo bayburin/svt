@@ -40,11 +40,26 @@ FactoryBot.define do
     email 'v714@iss-reshetnev.ru'
     login 'KucherenkoVN'
     fullname 'Кучеренко Виктор Николаевич'
-    association :role, factory: :manager_role
 
     after(:build) do |user, ev|
       unless ev.role
         user.role = Role.find_by(name: :manager) || create(:manager_role)
+      end
+    end
+  end
+
+  factory :tyulyakova_user, class: User do
+    id_tn 9906
+    tn 24_108
+    phone '59-57'
+    division 714
+    email 'tulq@iss-reshetnev.ru'
+    login 'TyulyakovaTA'
+    fullname 'Тюлякова Татьяна Анатольевна'
+
+    after(:build) do |user, ev|
+      unless ev.role
+        user.role = Role.find_by(name: :read_only_role) || create(:read_only_role)
       end
     end
   end

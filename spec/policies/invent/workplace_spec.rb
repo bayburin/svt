@@ -49,6 +49,42 @@ module Invent
       end
     end
 
+    permissions :new? do
+      let(:workplace) do
+        create_workplace_attributes(
+          true,
+          room: IssReferenceSite.first.iss_reference_buildings.first.iss_reference_rooms.first
+        )
+      end
+
+      context 'with :lk_user role' do
+        context 'and when in allowed time' do
+          let(:workplace_count) { create(:active_workplace_count, users: [bayburin_user]) }
+
+          it 'grants access to the workplace' do
+            expect(subject).to permit(bayburin_user, Workplace.new(workplace))
+          end
+        end
+
+        context 'and when out of allowed time' do
+          let(:workplace_count) { create(:inactive_workplace_count, users: [bayburin_user]) }
+
+          it 'denies access to the workplace' do
+            expect(subject).not_to permit(bayburin_user, Workplace.new(workplace))
+          end
+        end
+      end
+
+      context 'with :manager role' do
+        let(:manager) { create(:kucherenko_user) }
+        let(:workplace_count) { create(:active_workplace_count, users: [bayburin_user]) }
+
+        it 'grants access to the workplace' do
+          expect(subject).to permit(manager, Workplace.new(workplace))
+        end
+      end
+    end
+
     permissions :create? do
       let(:workplace) do
         create_workplace_attributes(
@@ -96,6 +132,14 @@ module Invent
 
         it 'grants access to the workplace' do
           expect(subject).to permit(manager, Workplace.find(workplace.workplace_id))
+        end
+      end
+
+      context 'with :read_only role' do
+        let(:read_only) { create(:tyulyakova_user) }
+
+        it 'grants access to the workplace' do
+          expect(subject).to permit(read_only, Workplace.find(workplace.workplace_id))
         end
       end
     end
