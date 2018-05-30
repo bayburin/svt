@@ -6,13 +6,13 @@ class ApplicationPolicy
     @record = record
   end
 
-  # Есть ли доступ к контроллерам (за исключение :lk_invents)
+  # Пользователям с ролью lk_user доступ запрещен
   def authorization?
-    !user.has_role? :lk_user
+    !user.role? :lk_user
   end
 
   def admin?
-    user.has_role? :admin
+    user.role? :admin
   end
 
   class Scope
@@ -26,5 +26,19 @@ class ApplicationPolicy
     def resolve
       scope
     end
+  end
+
+  protected
+
+  def for_manager
+    return true if admin?
+
+    user.role? :manager
+  end
+
+  def for_worker
+    return true if admin?
+
+    user.one_of_roles? :manager, :worker
   end
 end
