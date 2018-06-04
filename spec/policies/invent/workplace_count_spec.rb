@@ -8,6 +8,34 @@ module Invent
     let(:lk_user) { create(:bayburin_user) }
     subject { WorkplaceCountPolicy }
 
+    permissions '.scope' do
+      let(:scope) { WorkplaceCount }
+      subject(:policy_scope) { WorkplaceCountPolicy::Scope.new(user, scope).resolve }
+
+      context 'for users with lk_role' do
+        let(:user) { lk_user }
+        let!(:wp_c) { create(:active_workplace_count, users: [user]) }
+
+        # it 'shows only user workplace_counts' do
+        #   expect(policy_scope).to eq [wp_c]
+        # end
+      end
+
+      context 'for another users' do
+        let(:user) { manager }
+
+        it 'shows all workplace_counts' do
+          expect(policy_scope.count).to eq WorkplaceCount.count
+        end
+      end
+    end
+
+    permissions :ctrl_access? do
+      let(:model) { create(:active_workplace_count, users: [lk_user]) }
+
+      include_examples 'policy not for lk_user'
+    end
+
     permissions :generate_pdf? do
       let!(:workplace_count) { create(:active_workplace_count, users: [lk_user]) }
 

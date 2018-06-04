@@ -49,17 +49,13 @@ Rails.application.routes.draw do
     # Расшифровать файл конфигурации ПК, загруженный пользователем.
     post 'lk_invents/pc_config_from_user', to: 'lk_invents#pc_config_from_user'
     # Записать данные о РМ
-    post 'lk_invents/create_workplace', to: 'lk_invents#create_workplace'
+    # post 'lk_invents/create_workplace', to: 'lk_invents#create_workplace'
     # Получить данные о РМ
-    get 'lk_invents/edit_workplace/:workplace_id',
-        to: 'lk_invents#edit_workplace',
-        constraints: { workplace_id: /\d+/ }
+    # get 'lk_invents/edit_workplace/:workplace_id', to: 'lk_invents#edit_workplace', constraints: { workplace_id: /\d+/ }
     # Обновить данные о РМ
-    patch 'lk_invents/update_workplace/:workplace_id',
-          to: 'lk_invents#update_workplace',
-          constraints: { workplace_id: /\d+/ }
+    # patch 'lk_invents/update_workplace/:workplace_id', to: 'lk_invents#update_workplace', constraints: { workplace_id: /\d+/ }
     # Удалить РМ
-    delete 'lk_invents/destroy_workplace/:workplace_id', to: 'lk_invents#destroy_workplace', constraints: { workplace_id: /\d+/ }
+    # delete 'lk_invents/destroy_workplace/:workplace_id', to: 'lk_invents#destroy_workplace', constraints: { workplace_id: /\d+/ }
     # Создать PDF файл со списком РМ для отдела
     get 'lk_invents/generate_pdf/:division', to: 'lk_invents#generate_pdf', constraints: { division: /\d+/ }
     # Скачать скрипт для генерации файла конфигурации ПК
