@@ -1,48 +1,54 @@
 module Invent
   module Workplaces
     # Загрузить все рабочие места
-    class ListWp < ApplicationService
-      # init_filters- флаг, определяющий, нужно ли загрузить данные для фильтров.
-      # filters - объект, содержащий выбранные фильтры.
-      def initialize(init_filters = false, filters = false)
-        @data = {}
-        @init_filters = init_filters
-        @filters = filters
+    class ListWp < BaseService
+      def initialize(current_user, params)
+        @current_user = current_user
+        @start = params[:start]
+        @length = params[:length]
+        @conditions = JSON.parse(params[:filters]) if params[:filters]
+
+        super
       end
 
       def run
         load_workplace
-        run_filters if @filters
+        limit_records
         prepare_to_render
-        load_filters if @init_filters
 
         true
+      rescue RuntimeError => e
+        Rails.logger.error e.inspect.red
+        Rails.logger.error e.backtrace[0..5].inspect
+
+        false
       end
 
-      private
+      protected
 
       def load_workplace
-        @workplaces = Workplace.includes(
-          :user_iss,
-          :workplace_type,
-          :workplace_specialization,
-          :workplace_count,
-          :iss_reference_site,
-          :iss_reference_building,
-          :iss_reference_room,
-          inv_items: [:inv_type, :inv_model, inv_property_values: %i[inv_property inv_property_list]]
-        ).where(status: :pending_verification)
+        data[:recordsTotal] = Workplace.count
+        @workplaces = policy_scope(Workplace)
+        run_filters if @conditions
       end
 
-      # Отфильтровать полученные данные
-      def run_filters
-        unless @filters['workplace_count_id'].to_i.zero?
-          @workplaces = @workplaces.where(workplace_count_id: @filters['workplace_count_id'])
-        end
+      def limit_records
+        data[:recordsFiltered] = @workplaces.length
+        @workplaces = @workplaces
+                        .includes(
+                          :user_iss,
+                          :workplace_type,
+                          :workplace_specialization,
+                          :workplace_count,
+                          :iss_reference_site,
+                          :iss_reference_building,
+                          :iss_reference_room,
+                          items: [:type, :model, property_values: %i[property property_list]]
+                        ).order(workplace_id: :desc).limit(@length).offset(@start)
       end
 
       def prepare_to_render
-        @data[:workplaces] = @workplaces.as_json(
+        data[:data] = @workplaces.as_json(
           include: [
             :user_iss,
             :workplace_type,
@@ -51,21 +57,23 @@ module Invent
             :iss_reference_site,
             :iss_reference_building,
             :iss_reference_room,
-            inv_items: {
+            items: {
               include: [
-                :inv_type,
-                :inv_model,
-                inv_property_values: {
-                  include: %i[inv_property inv_property_list]
+                :type,
+                :model,
+                property_values: {
+                  include: %i[property property_list]
                 }
-              ]
+              ],
+              methods: :short_item_model
             }
           ]
         ).map do |wp|
-          workplace = "ФИО: #{wp['user_iss']['fio']}; Отдел: #{wp['workplace_count']['division']};
+          fio = wp['user_iss'] ? wp['user_iss']['fio'] : wrap_problem_string('Ответственный не найден')
+          workplace = "ФИО: #{fio}; Отдел: #{wp['workplace_count']['division']};
  #{wp['workplace_type']['short_description']}; Расположение: #{wp_location_string(wp)}; Основной вид деятельности:
  #{wp['workplace_specialization']['short_description']}"
-          items = wp['inv_items'].map { |item| item_info(item) }
+          items = wp['items'].map { |item| item_info(item) }
 
           {
             workplace_id: wp['workplace_id'],
@@ -77,23 +85,16 @@ module Invent
 
       # Преобразовать данные о составе РМ в массив строк.
       def item_info(item)
-        model = if item['inv_model']
-                  "Модель: #{item['inv_model']['item_model']}"
-                elsif !item['inv_model'] && !item['item_model'].empty?
-                  "<span class='manually-val'>Модель: #{item['item_model']}</span>"
-                else
-                  'Модель не указана'
-                end
-        property_values = item['inv_property_values'].map { |prop_val| property_value_info(prop_val) }
+        model = item['short_item_model'].blank? ? 'не указана' : item['short_item_model']
+        property_values = item['property_values'].map { |prop_val| property_value_info(prop_val) }
 
-        "#{item['inv_type']['short_description']}: Инв №: #{item['invent_num']}; #{model}; Конфигурация:
+        "#{item['type']['short_description']}: Инв №: #{item['invent_num']}; Модель: #{model}; Конфигурация:
  #{property_values.join('; ')}"
       end
 
-      # Загрузить данные для фильтров
-      def load_filters
-        @data[:filters] = {}
-        @data[:filters][:divisions] = WorkplaceCount.select(:workplace_count_id, :division).order('CAST(division AS SIGNED)')
+      # Обернуть строку в тег <span class='manually'>
+      def wrap_problem_string(string)
+        "<span class='manually-val'>#{string}</span>"
       end
     end
   end

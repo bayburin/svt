@@ -1,62 +1,56 @@
-require 'spec_helper'
+require 'feature_helper'
 
 module Invent
   module Workplaces
     RSpec.describe ListWp, type: :model do
-      let(:user) { create :user }
-      let(:workplace_count) { create :active_workplace_count, users: [user] }
-      let(:workplace_count_715) { create :active_workplace_count, division: 715, users: [user] }
+      let(:user) { create(:user) }
+      let(:workplace_count) { create(:active_workplace_count, users: [user]) }
+      let(:workplace_count_715) { create(:active_workplace_count, division: 715, users: [user]) }
       let!(:workplace) do
-        create :workplace_pk,
-               :add_items,
-               items: [:pc, monitor: [diagonal: { inv_property_list: nil, value: 'Manually diagonal' }]],
-               workplace_count: workplace_count
+        create(
+          :workplace_pk,
+          :add_items,
+          items: [:pc, monitor: [diagonal: { property_list: nil, value: 'Manually diagonal' }]],
+          workplace_count: workplace_count
+        )
       end
-      let!(:workplace_715) { create :workplace_mob, :add_items, items: %i[notebook], status: :confirmed, workplace_count: workplace_count_715 }
+      let!(:workplace_715) { create(:workplace_mob, :add_items, items: %i[notebook], status: :confirmed, workplace_count: workplace_count_715) }
+      let(:params) { { start: 0, length: 25 } }
+      subject { ListWp.new(user, params) }
       before { subject.run }
 
-      it 'fills the @data object with %i[workplaces] keys' do
-        expect(subject.data).to include(:workplaces)
+      it { is_expected.to be_truthy }
+
+      context '' do
+        let!(:workplace_715) { create_list(:workplace_mob, 30, :add_items, items: %i[notebook], status: :confirmed, workplace_count: workplace_count_715) }
+
+        it 'loads workplaces specified into length param' do
+          expect(subject.data[:data].count).to eq params[:length]
+        end
       end
 
-      it 'fills the workplaces array with %i[workplace_id workplace items] keys' do
-        expect(subject.data[:workplaces].first)
-          .to include(:workplace_id, :workplace, :items)
+      it 'adds %i[workplace_id workplace items] fields' do
+        expect(subject.data[:data].first).to include(:workplace_id, :workplace, :items)
       end
 
-      it 'fills the workplaces array only with workplaces which have the :pending_verification status' do
-        expect(subject.data[:workplaces].count).to eq 1
-        expect(subject.data[:workplaces].first[:workplace_id]).to eq workplace.workplace_id
-      end
+      # it 'wraps the values entered manually with <span class=\'manually\'></span> tag' do
+      #   expect(subject.data[:workplaces].first[:items].last).to match(%r{<span class='manually-val'>Модель: #{workplace.items.first.item_model}</span>})
+      #   expect(subject.data[:workplaces].first[:items].last).to match(%r{<span class='manually-val'>Диагональ экрана: Manually diagonal</span>})
+      # end
 
-      it 'must create @workplaces variable' do
-        expect(subject.instance_variable_get :@workplaces).not_to be_nil
-      end
-
-      it 'wraps the values entered manually with <span class=\'manually\'></span> tag' do
-        expect(subject.data[:workplaces].first[:items].last).to match /<span class='manually-val'>Модель: #{workplace.inv_items.first.item_model}<\/span>/
-        expect(subject.data[:workplaces].first[:items].last).to match /<span class='manually-val'>Диагональ экрана: Manually diagonal<\/span>/
-      end
-
-      context 'with init_filters' do
-        subject { ListWp.new(true) }
-
-        it 'assigns %i[divisions] to the :filters key' do
-          expect(subject.data[:filters]).to include(:divisions)
+      context 'when user_iss was fired' do
+        let!(:workplace) do
+          build(
+            :workplace_pk,
+            :add_items,
+            items: [:pc, monitor: [diagonal: { property_list: nil, value: 'Manually diagonal' }]],
+            id_tn: '382_121_111',
+            workplace_count: workplace_count
+          ).save(validate: false)
         end
 
-        its(:run) { is_expected.to be_truthy }
-      end
-
-      context 'with filters' do
-        context 'with division filter' do
-          let(:filter) { { workplace_count_id: workplace_count.workplace_count_id } }
-          subject { ListWp.new(false, filter.as_json) }
-
-          it 'returns filtered data' do
-            expect(subject.data[:workplaces].count).to eq 1
-            expect(subject.data[:workplaces].first[:workplace]).to match /Отдел: #{workplace.workplace_count.division}/
-          end
+        it 'adds "Ответственный не найден" string and wraps it with <span class=\'manually\'></span> tag' do
+          expect(subject.data[:data].last[:workplace]).to match(%r{<span class='manually-val'>Ответственный не найден</span>})
         end
       end
     end
