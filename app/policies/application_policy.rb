@@ -8,7 +8,7 @@ class ApplicationPolicy
 
   # Пользователям с ролью lk_user доступ запрещен
   def authorization?
-    !user.role? :lk_user
+    not_for_lk_user
   end
 
   def admin?
@@ -40,5 +40,9 @@ class ApplicationPolicy
     return true if admin?
 
     user.one_of_roles? :manager, :worker
+  end
+
+  def not_for_lk_user
+    !user.role? :lk_user
   end
 end
