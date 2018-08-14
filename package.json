@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^3.0.2",
+    "@rails/webpacker": "3.5",
     "angular": "1.5.x",
     "angular-actioncable": "^1.1.1",
     "angular-animate": "1.5.x",
@@ -20,10 +20,11 @@
     "angular-ui-bootstrap": "2.5.x",
     "angular-websocket": "^2.0.1",
     "coffeescript": "1.12.7",
+    "html-loader": "^0.5.5",
     "ng-file-upload": "^12.2.13",
     "ui-select": "^0.19.8"
   },
   "devDependencies": {
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "2.11.2"
   }
 }

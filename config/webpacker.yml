@@ -14,20 +14,19 @@ default: &default
   cache_manifest: false
 
   extensions:
-    - .coffee
-    - .erb
     - .js
-    - .jsx
-    - .ts
-    - .vue
     - .sass
     - .scss
     - .css
+    - .module.sass
+    - .module.scss
+    - .module.css
     - .png
     - .svg
     - .gif
     - .jpeg
     - .jpg
+    - .html
 
 development:
   <<: *default
@@ -35,7 +34,7 @@ development:
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
-    https: false
+    https: true
     host: localhost
     port: 3035
     public: localhost:3035
@@ -43,8 +42,15 @@ development:
     # Inline should be set to true if using HMR
     inline: true
     overlay: true
+    compress: true
     disable_host_check: true
     use_local_ip: false
+    quiet: false
+    headers:
+      'Access-Control-Allow-Origin': '*'
+    watch_options:
+      ignored: /node_modules/
+
 
 test:
   <<: *default
@@ -56,7 +62,7 @@ test:
 staging:
   <<: *default
 
-  # Staging depends on precompilation of packs prior to booting for performance.
+  # Production depends on precompilation of packs prior to booting for performance.
   compile: false
 
   # Cache manifest.json for performance
