@@ -47,6 +47,7 @@ module Inv
         resource '/invent/lk_invents/generate_pdf*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/get_pc_script*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/existing_item*', headers: :any, methods: [:get]
+        resource '/invent/lk_invents/invent_item*', headers: :any, methods: [:get]
       end
     end
 
