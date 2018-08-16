@@ -69,11 +69,13 @@ Rails.application.routes.draw do
     get 'lk_invents/pc_script', to: 'lk_invents#send_pc_script'
     # Проверить, существует ли техника с указанным инвентарным номером
     get 'lk_invents/existing_item', to: 'lk_invents#existing_item'
+    # Показать данные по указанной технике
+    get 'lk_invents/invent_item', to: 'lk_invents#invent_item'
 
     resources :items, only: [:index, :show, :edit, :destroy], param: :item_id do
       collection do
         get 'avaliable/:type_id', to: 'items#avaliable', constraints: { type_id: /\d+/ }
-        get 'busy/:type_id', to: 'items#busy', constraints: { type_id: /\d+/ }
+        get 'busy', to: 'items#busy'
       end
     end
 
