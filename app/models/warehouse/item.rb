@@ -17,7 +17,7 @@ module Warehouse
     validates :invent_num_start, :invent_num_end, numericality: { greater_than_or_equal_to: 0 }, presence: true, if: -> { warehouse_type.to_s == 'with_invent_num' && !used }
     validate :max_count, if: -> { inv_item }
     validate :compare_counts, if: -> { count && count_reserved }
-    validate :compare_invent_nums_with_reserved, if: -> { warehouse_type.to_s == 'with_invent_num' && !used }
+    validate :compare_invent_nums_with_reserved, if: -> { warehouse_type.to_s == 'with_invent_num' && !used && (invent_num_start_changed? || invent_num_end_changed?) }
 
     after_initialize :set_initial_count, if: -> { new_record? }
     before_validation :set_string_values
@@ -52,7 +52,7 @@ module Warehouse
     def generate_invent_num(index = 0)
       return unless invent_num_end
 
-      existing_invent_nums = inv_items.pluck(:invent_num)
+      existing_invent_nums = Invent::Item.pluck(:invent_num)
       (invent_num_start..invent_num_end).to_a.reject { |el| existing_invent_nums.include?(el.to_s) }[0 + index]
     end
 

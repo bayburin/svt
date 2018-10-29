@@ -61,10 +61,20 @@ module Warehouse
     describe '#generate_invent_num' do
       subject { create(:new_item, count: 4, inv_type: Invent::Type.find_by(name: :pc), item_model: 'UNIT', invent_num_end: 114) }
 
-      before { allow(subject).to receive_message_chain(:inv_items, :pluck).and_return(['111', '113']) }
+      context 'when not all invent_nums is busy' do
+        before { allow(Invent::Item).to receive_message_chain(:pluck).and_return(['111', '113']) }
 
-      it 'generates an invent_num excluding existing' do
-        expect(subject.generate_invent_num).to eq 112
+        it 'generates an invent_num excluding existing' do
+          expect(subject.generate_invent_num).to eq 112
+        end
+      end
+
+      context 'when all invent_nums is busy' do
+        before { allow(Invent::Item).to receive_message_chain(:pluck).and_return(['111', '112', '113', '114']) }
+
+        it 'generates an invent_num excluding existing' do
+          expect(subject.generate_invent_num).to be_nil
+        end
       end
     end
 
@@ -197,6 +207,7 @@ module Warehouse
           subject.count = 2
           subject.invent_num_end = 112
           subject.valid?
+
           expect(subject.errors.details[:base]).to include(error: :invent_num_pool_is_too_small, model: subject.item_model)
         end
       end
@@ -207,6 +218,15 @@ module Warehouse
           order_params[:operations_attributes] = [operation]
           Warehouse::Orders::CreateOut.new(create(:kucherenko_user), order_params).run
           subject.count = 3
+        end
+
+        it { is_expected.to be_valid }
+      end
+
+      context 'when invent_num_start was not changed' do
+        before do
+          subject.item_model = 'changed model'
+          subject.valid?
         end
 
         it { is_expected.to be_valid }
