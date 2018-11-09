@@ -50,7 +50,7 @@ import { app } from '../../app/app';
     this.InventItem.matchUploadFile(file).then(
       (response) => {
         if (!this.WorkplaceItem.matchDataFromUploadedFile(this.item, response.data)) {
-          this.Flash.alert('Не удалось обработать данные. Убедитесь в том, что вы загружаете файл, созданный скачанной программой. Если ошибка не исчезает, обратитесь к администратору (т.50-32)');
+          this.Flash.alert('Не удалось обработать данные. Убедитесь в том, что вы загружаете файл, созданный скачанной программой. Если ошибка не исчезает, обратитесь к администратору (т.84-29)');
 
           return false;
         }
