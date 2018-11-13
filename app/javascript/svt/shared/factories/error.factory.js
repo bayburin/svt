@@ -44,13 +44,13 @@ import { app } from '../../app/app';
               Flash.alert(message);
             } else {
               descr = (response && response.statusText) ? ' (' + response.statusText + ')' : '';
-              Flash.alert('Ошибка. Код: ' + code + descr + '. Обратитесь к администратору (тел. 50-32).');
+              Flash.alert('Ошибка. Код: ' + code + descr + '. Обратитесь к администратору (тел. 84-29).');
             }
 
             break;
           default:
             descr = (response && response.statusText) ? ' (' + response.statusText + ')' : '';
-            Flash.alert('Ошибка. Код: ' + code + descr + '. Обратитесь к администратору (тел. 50-32).');
+            Flash.alert('Ошибка. Код: ' + code + descr + '. Обратитесь к администратору (тел. 84-29).');
             break;
         }
       }

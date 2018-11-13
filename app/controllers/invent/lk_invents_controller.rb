@@ -131,7 +131,7 @@ module Invent
       if @existing_item.run
         render json: @existing_item.data
       else
-        render json: { full_message: 'Обратитесь к администратору, т.50-32' }, status: 422
+        render json: { full_message: 'Обратитесь к администратору, т.84-29' }, status: 422
       end
     end
 
