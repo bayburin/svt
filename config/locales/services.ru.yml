@@ -6,6 +6,9 @@ ru:
         inv_num: 'Инвентарный номер'
         host: 'ПК'
 
+      invent/items/busy:
+        base: ''
+
     errors:
       models:
         invent/items/pc_config_from_audit:
@@ -18,15 +21,19 @@ ru:
           not_relevant: 'Полученные данные не действительны, вам необходимо ввести данные вручную. Для этого нажмите
            кнопку "Ввод данных вручную"'
 
+        invent/items/busy:
+          item_not_found: 'Техника не найдена. Проверьте корректность введенных данных'
+          item_already_used_in_orders: 'Техника уже используется в ордерах под следующими номерами: %{orders}'
+
         invent/workplaces/confirm:
-          unknown_action: 'Неизвестное действие. Обратитесь к администратору (т. 50-32)'
-          error_update_status: 'Не удалось обновить статус для следующих рабочих мест: %{workplaces}. Обратитесь к администратору (т. 50-32)'
+          unknown_action: 'Неизвестное действие. Обратитесь к администратору (т. 84-29)'
+          error_update_status: 'Не удалось обновить статус для следующих рабочих мест: %{workplaces}. Обратитесь к администратору (т. 84-29)'
 
         invent/lk_invents/lk_authorization:
           access_denied: 'Доступ запрещен'
 
         warehouse/orders/create:
-          error_create_warehouse_item: 'Не удалось добавить %{type} (Инв. №: %{invent_num}). Обратитесь к администратору, т. 50-32'
+          error_create_warehouse_item: 'Не удалось добавить %{type} (Инв. №: %{invent_num}). Обратитесь к администратору, т. 84-29'
 
         warehouse/orders/execute:
           operation_not_selected: 'Необходимо выбрать хотя бы одну позицию'
