@@ -2,9 +2,9 @@ ru:
   controllers:
     app:
       access_denied: 'Доступ запрещен'
-      unprocessable_entity: 'Ошибка. Обратитесь к администратору, т.50-32'
+      unprocessable_entity: 'Ошибка. Обратитесь к администратору, т.84-29'
     lk_invents:
-      unprocessable_entity: 'Обратитесь к администратору, т.50-32'
+      unprocessable_entity: 'Обратитесь к администратору, т.84-29'
       file_added: 'Файл добавлен'
     invent/workplace:
       created: 'Рабочее место создано'
