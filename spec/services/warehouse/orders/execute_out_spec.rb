@@ -20,7 +20,7 @@ module Warehouse
         let(:operations) { [first_op, sec_op] }
         let!(:order) { create(:order, inv_workplace: workplace, operation: :out, operations: operations, validator_id_tn: current_user.id_tn) }
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json['operations_attributes'].each { |op| op['status'] = 'done' }
           order_json
@@ -70,18 +70,17 @@ module Warehouse
           let(:inv_items) { [first_inv_item, sec_inv_item] }
           let!(:order) { create(:order, inv_workplace: workplace, operation: :out, operations: operations, validator_id_tn: current_user.id_tn) }
           let(:order_params) do
-            order_json['consumer_tn'] = 17664
+            order_json['consumer_tn'] = 17_664
             order_json['operations_attributes'] = operations.as_json
             order_json['operations_attributes'].each_with_index do |op, index|
-              if index == 1
-                op['status'] = 'done'
+              next unless index == 1
 
-                op['inv_items_attributes'] = [{
-                  id: sec_inv_item.item_id,
-                  serial_num: '111111',
-                  invent_num: sec_item.generate_invent_num
-                }]
-              end
+              op['status'] = 'done'
+              op['inv_items_attributes'] = [{
+                id: sec_inv_item.item_id,
+                serial_num: '111111',
+                invent_num: sec_item.generate_invent_num
+              }]
             end
             order_json
           end
@@ -164,13 +163,13 @@ module Warehouse
           let(:inv_items) { [first_inv_item, sec_inv_item] }
           let!(:order) { create(:order, inv_workplace: workplace, operation: :out, operations: operations, validator_id_tn: current_user.id_tn) }
           let(:order_params) do
-            order_json['consumer_tn'] = 17664
+            order_json['consumer_tn'] = 17_664
             order_json['operations_attributes'] = operations.as_json
             order_json['operations_attributes'].each do |op|
               op['status'] = 'done'
 
               operation = order.operations.find { |el| el.id == op['id'] }
-              op['inv_items_attributes'] = operation.inv_items.as_json(only: [:item_id, :invent_num, :serial_num])
+              op['inv_items_attributes'] = operation.inv_items.as_json(only: %i[item_id invent_num serial_num])
               op['inv_items_attributes'].each do |inv_item|
                 inv_item['id'] = inv_item['item_id']
                 inv_item.delete('item_id')
@@ -216,16 +215,16 @@ module Warehouse
             o
           end
           let(:order_params) do
-            order_json['consumer_tn'] = 17664
+            order_json['consumer_tn'] = 17_664
             order_json['operations_attributes'] = operations.as_json
             order_json['operations_attributes'].each do |op|
               op['status'] = 'done'
 
               operation = order.operations.find { |el| el.id == op['id'] }
-              op['inv_items_attributes'] = operation.inv_items.as_json(only: [:item_id, :invent_num, :serial_num])
+              op['inv_items_attributes'] = operation.inv_items.as_json(only: %i[item_id invent_num serial_num])
               op['inv_items_attributes'].each do |inv_item|
                 inv_item['id'] = inv_item['item_id']
-                inv_item['invent_num'] = 777777
+                inv_item['invent_num'] = 777_777
                 inv_item.delete('item_id')
               end
             end
@@ -237,7 +236,7 @@ module Warehouse
           it 'does not change invent_num of selected items' do
             subject.run
 
-            expect(first_inv_item.reload.invent_num).not_to eq 777777
+            expect(first_inv_item.reload.invent_num).not_to eq 777_777
           end
         end
 
@@ -248,11 +247,11 @@ module Warehouse
           let(:operation) { build(:order_operation, item: item, inv_item_ids: [item.invent_item_id], shift: -1) }
           let!(:order) { create(:order, inv_workplace: workplace, operation: :out, validator_id_tn: current_user.id_tn, operations: [operation]) }
           let(:order_params) do
-            order_json['consumer_tn'] = 17664
+            order_json['consumer_tn'] = 17_664
             order_json['operations_attributes'] = [operation].as_json
             order_json['operations_attributes'].each do |op|
               op['status'] = 'done'
-              op['inv_items_attributes'] = operation.inv_items.as_json(only: [:item_id, :invent_num, :serial_num])
+              op['inv_items_attributes'] = operation.inv_items.as_json(only: %i[item_id invent_num serial_num])
               op['inv_items_attributes'].each do |inv_item|
                 inv_item['id'] = inv_item['item_id']
                 inv_item.delete('item_id')
