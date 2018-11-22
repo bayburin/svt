@@ -30,7 +30,7 @@ module Warehouse
           build(:order_operation, item: first_item, inv_item_ids: [first_inv_item.item_id], shift: -1),
           build(:order_operation, item: sec_item, inv_item_ids: [sec_inv_item.item_id], shift: -1),
           build(:order_operation, item: third_item, shift: -1),
-          build(:order_operation, item: fourth_item, inv_item_ids: [fourth_inv_item.item_id, fifth_inv_item.item_id, sixth_inv_item.item_id], shift: -3),
+          build(:order_operation, item: fourth_item, inv_item_ids: [fourth_inv_item.item_id, fifth_inv_item.item_id, sixth_inv_item.item_id], shift: -3)
         ]
       end
       let!(:order) do
@@ -42,7 +42,7 @@ module Warehouse
 
       context 'and when user selected items with different types' do
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json['operations_attributes'].each_with_index do |op, index|
             op['status'] = 'done' if [0, 2, 3].include?(index)
@@ -72,7 +72,7 @@ module Warehouse
 
       context 'and when user does not selected any operation' do
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json
         end
@@ -88,7 +88,7 @@ module Warehouse
 
       context 'and when user selected items with the same types' do
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json['operations_attributes'].each_with_index do |op, index|
             op['status'] = 'done' if [0, 1, 2, 3].include?(index)

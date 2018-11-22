@@ -25,7 +25,7 @@ module Warehouse
         let!(:order) { create(:order, inv_workplace: workplace, operations: operations) }
         let(:order_json) { order.as_json }
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json['operations_attributes'].each_with_index do |op, index|
             op['status'] = 'done' if index.zero?
@@ -92,7 +92,7 @@ module Warehouse
         end
 
         context 'and when invent_item was not updated' do
-          before { allow_any_instance_of(Invent::Item).to receive(:update_attributes!).and_raise(ActiveRecord::RecordNotSaved) }
+          before { allow_any_instance_of(Invent::Item).to receive(:update!).and_raise(ActiveRecord::RecordNotSaved) }
 
           it 'does not save all another records' do
             subject.run
@@ -142,7 +142,7 @@ module Warehouse
 
         context 'and when operations is not selected' do
           let(:order_params) do
-            order_json['consumer_tn'] = 17664
+            order_json['consumer_tn'] = 17_664
             order_json['operations_attributes'] = operations.as_json
             order_json
           end
@@ -162,7 +162,7 @@ module Warehouse
         let!(:order) { create(:order, operations: operations) }
         let(:order_json) { order.as_json }
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json['operations_attributes'].each do |op|
             op['status'] = 'done'
@@ -242,7 +242,7 @@ module Warehouse
         let!(:order) { create(:order, inv_workplace: nil, operations: operations, consumer_tn: user.tn) }
         let(:order_json) { order.as_json }
         let(:order_params) do
-          order_json['consumer_tn'] = 17664
+          order_json['consumer_tn'] = 17_664
           order_json['operations_attributes'] = operations.as_json
           order_json['operations_attributes'].each do |op|
             op['status'] = 'done'

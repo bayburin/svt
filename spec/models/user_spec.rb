@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
 
   describe '#fill_data' do
     context 'when :tn is valid' do
-      let(:tn) { 17664 }
+      let(:tn) { 17_664 }
       let(:user_iss) { UserIss.find_by(tn: tn) }
       before { subject.tn = tn }
 
@@ -23,7 +23,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'when :tn is invalid' do
-      let(:tn) { 17664123123 }
+      let(:tn) { 17_664_123_123 }
       let(:user_iss) { UserIss.find_by(tn: tn) }
       before { subject.tn = tn }
 
