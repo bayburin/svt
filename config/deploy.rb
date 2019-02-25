@@ -40,7 +40,7 @@ set :pty, true
 
 # Repo details
 set :rbenv_ruby, '2.3.1'
-set :repo_url, '/var/repos/inv.git'
+set :repo_url, 'git@gitlab.iss-reshetnev.ru:714/7141/svt.git'
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 
 set :keep_releases, 5
