@@ -97,6 +97,7 @@ module Invent
       left_outer_joins(:workplace).where(invent_workplace: { location_room_id: room_id })
     end
     scope :priority, ->(priority) { where(priority: priority) }
+    scope :workplace_count_id, ->(workplace_count_id) { left_outer_joins(:workplace).where(invent_workplace: { workplace_count_id: workplace_count_id }) }
 
     attr_accessor :disable_filters
     attr_accessor :destroy_from_order
@@ -294,7 +295,7 @@ module Invent
     def prevent_update
       return unless warehouse_item
 
-      if item_model_changed?
+      if item_model_changed? && !(workplace_id_changed? && workplace_id.blank?)
         cannot_update_due_warehouse_item_for(:item_model)
       elsif model_id_changed?
         cannot_update_due_warehouse_item_for(:model)
