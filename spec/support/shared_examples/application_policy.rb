@@ -45,3 +45,9 @@ shared_examples 'policy not for lk_user' do
     end
   end
 end
+
+shared_examples 'status for item is non_used' do
+  it 'item is new' do
+    expect(model.new?).to be_truthy
+  end
+end

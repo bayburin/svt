@@ -18,6 +18,8 @@ module Invent
 
       its(:run) { is_expected.to be_truthy }
 
+      include_examples 'includes field property_list_not_fixed'
+
       it 'adds :model and :types keys to the data variable' do
         subject.run
         expect(subject.data).to include(:model, :types)
