@@ -58,11 +58,33 @@ module Invent
         end
 
         context 'when adds new user' do
+          context 'and when assigned a new role to user' do
+            let(:role_id) { Role.find_by(name: 'lk_user').id }
+            let(:user) { User.find_by(tn: new_user.tn) }
+
+            it 'change the role as :lk_user' do
+              subject.run
+
+              expect(user.role_id).to eq role_id
+            end
+          end
+
           include_examples 'user phone is changing'
         end
 
         context 'when adds present user' do
-          let(:new_user) { create(:bayburin_user) }
+          let(:role_id) { Role.find_by(name: 'admin').id }
+          let(:new_user) { create(:bayburin_user, role_id: role_id) }
+
+          context 'and when assigned an existing role to user' do
+            before { workplace_count[:users_attributes].first[:id] = nil }
+
+            it 'change the role as :admin' do
+              subject.run
+
+              expect(new_user.role_id).to eq role_id
+            end
+          end
 
           include_examples 'user phone is changing'
         end
