@@ -3,7 +3,7 @@ module Invent
     # Загрузить список техники, которая находится в работе в текущий момент.
     class Index < Invent::ApplicationService
       # Список фильтров по умолчанию для фильтра "Статусы"
-      DEFAULT_STATUS_FILTER = %w[waiting_take waiting_bring in_stock in_workplace].freeze
+      DEFAULT_STATUS_FILTER = %w[waiting_take waiting_bring prepared_to_swap in_stock in_workplace waiting_write_off written_off].freeze
 
       def initialize(params)
         @params = params
@@ -40,7 +40,7 @@ module Invent
       def filtering_params
         filters = JSON.parse(params[:filters])
         filters['for_statuses'] = data[:filters][:statuses].select { |filter| filter[:default] }.as_json if need_init_filters?
-        filters.slice('item_id', 'type_id', 'invent_num', 'item_model', 'responsible', 'properties', 'for_statuses', 'location_building_id', 'location_room_id', 'priority', 'workplace_count_id')
+        filters.slice('item_id', 'type_id', 'invent_num', 'serial_num', 'item_model', 'responsible', 'properties', 'for_statuses', 'location_building_id', 'location_room_id', 'priority', 'workplace_count_id')
       end
 
       def limit_records
