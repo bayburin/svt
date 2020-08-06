@@ -4,6 +4,10 @@ module Warehouse
       not_for_lk_user
     end
 
+    def create?
+      for_worker
+    end
+
     def edit?
       for_worker
     end
