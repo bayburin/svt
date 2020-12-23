@@ -35,7 +35,8 @@ module Inv
       allow do
         origins 'https://lk-3-dev.iss-reshetnev.ru', 'https://lk-3-dev.npopm``.ru',
                 'https://lk-test-3.iss-reshetnev.ru', 'https://lk-test-3.npopm.ru',
-                'https://lk.iss-reshetnev.ru', 'https://lk.npopm.ru', 'http://koza'
+                'https://lk.iss-reshetnev.ru', 'https://lk.npopm.ru', 'http://koza',
+                /\Ahttps:\/\/orbita(.*)\.iss-reshetnev\.ru\z/
         resource '/invent/lk_invents/svt_access*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/init_properties*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/show_division_data*', headers: :any, methods: [:get]
