@@ -72,7 +72,7 @@ module Inv
       g.fixture_replacement :factory_bot, dir: 'spec/factories'
     end
 
-    config.action_cable.url = "wss://#{ENV['APPNAME']}.iss-reshetnev.ru/cable"
+    config.action_cable.url = "wss://#{ENV['HOSTNAME']}.iss-reshetnev.ru/cable"
 
     config.cache_store = :redis_store, "#{ENV['REDIS_URL']}2/cache"
 
