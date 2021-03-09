@@ -41,6 +41,7 @@ module Inv
         origins 'https://lk-3-dev.iss-reshetnev.ru', 'https://lk-3-dev.npopm``.ru',
                 'https://lk-test-3.iss-reshetnev.ru', 'https://lk-test-3.npopm.ru',
                 'https://lk.iss-reshetnev.ru', 'https://lk.npopm.ru', 'http://koza',
+                'https://cpr-dev.iss-reshetnev.ru', 'https://cpr.iss-reshetnev.ru', 'https://asud-dev.iss-reshetnev.ru',
                 /\Ahttps:\/\/orbita(.*)\.iss-reshetnev\.ru\z/
         resource '/invent/lk_invents/svt_access*', headers: :any, methods: [:get]
         resource '/invent/lk_invents/init_properties*', headers: :any, methods: [:get]
