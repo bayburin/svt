@@ -29,7 +29,7 @@ module Invent
           ]
         )
 
-        @data = prepare_to_lk_table(@data)
+        @data = prepare_to_lk_table(@data, [])
       end
 
       # Получить список работников указанного отдела.

@@ -32,6 +32,20 @@ FactoryBot.define do
     end
   end
 
+  factory :drag_user, class: User do
+    id_tn { 2709 }
+    tn { 24_125 }
+    phone { '24-80' }
+    division { 714 }
+    fullname { 'Дрянных Алексей Геннадьевич' }
+
+    after(:build) do |user, ev|
+      unless ev.role
+        user.role = Role.find_by(name: :admin) || create(:admin_role)
+      end
+    end
+  end
+
   factory :kucherenko_user, class: User do
     id_tn { 5336 }
     tn { 24_079 }
