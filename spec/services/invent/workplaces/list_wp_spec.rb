@@ -3,6 +3,9 @@ require 'feature_helper'
 module Invent
   module Workplaces
     RSpec.describe ListWp, type: :model do
+      skip_users_reference
+
+      let(:employee) { [build(:emp_bayburin)] }
       let(:user) { create(:user) }
       let(:workplace_count) { create(:active_workplace_count, users: [user]) }
       let(:workplace_count_715) { create(:active_workplace_count, division: 715, users: [user]) }
@@ -17,7 +20,12 @@ module Invent
       let!(:workplace_715) { create(:workplace_mob, :add_items, items: %i[notebook], status: :confirmed, workplace_count: workplace_count_715) }
       let(:params) { { start: 0, length: 25 } }
       subject { ListWp.new(user, params) }
-      before { subject.run }
+      before do
+        allow_any_instance_of(BaseService).to receive(:find_employees_page)
+        allow_any_instance_of(BaseService).to receive(:fio_employee).and_return(employee)
+
+        subject.run
+      end
 
       it { is_expected.to be_truthy }
 
@@ -88,6 +96,7 @@ module Invent
             workplace_count: workplace_count
           ).save(validate: false)
         end
+        let!(:employee) { [] }
 
         it 'adds "Ответственный не найден" string and wraps it with <span class=\'manually\'></span> tag' do
           expect(subject.data[:data].last[:workplace]).to match(%r{<span class='manually-val'>Ответственный не найден</span>})

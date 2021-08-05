@@ -3,6 +3,8 @@ require 'feature_helper'
 module Warehouse
   module Orders
     RSpec.describe CreateIn, type: :model do
+      before { allow(UsersReference).to receive(:info_users).and_return([build(:emp_agureev)]) }
+
       let!(:current_user) { create(:kucherenko_user) }
       let(:workplace_1) { create(:workplace_pk, :add_items, items: %i[pc monitor], dept: 714) }
       let(:workplace_2) { create(:workplace_pk, :add_items, items: %i[pc monitor], dept: 714) }

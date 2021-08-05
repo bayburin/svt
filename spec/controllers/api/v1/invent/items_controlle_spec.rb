@@ -12,6 +12,11 @@ module Api
                 include: [
                   :barcode_item,
                   {
+                    workplace: {
+                      except: %i[create_time]
+                    }
+                  },
+                  {
                     type: {
                       except: %i[create_time modify_time]
                     }
@@ -46,7 +51,8 @@ module Api
           end
 
           context 'when sent parametr tn' do
-            let(:user) { create(:kucherenko_user) }
+            before { allow(UsersReference).to receive(:info_users).and_return([build(:emp_bayburin)]) }
+            let(:user) { create(:bayburin_user) }
 
             context 'and when the user is not responsible in the division' do
               let(:inv_item) { create(:item, :with_property_values, type_name: :pc, status: :in_workplace) }
@@ -73,23 +79,23 @@ module Api
                 w
               end
               let(:result_data) do
-                workplace.items.find_by(status: :in_workplace).as_json(
+                items = workplace.items.find_by(status: :in_workplace).as_json(
                   include: [
                     {
                       type: { except: %i[create_time modify_time] }
                     },
                     {
                       workplace: {
-                        except: %i[create_time],
-                        include: {
-                          user_iss: { only: :fio }
-                        }
+                        except: %i[create_time]
                       }
                     }
                   ],
                   except: %i[create_time modify_time],
                   methods: :short_item_model
                 )
+
+                items.merge!('fio_user_iss': 'Ответственный не найден')
+                items.transform_keys(&:to_s)
               end
 
               before { get :index, params: { tn: user.tn }, format: :json }

@@ -1,13 +1,10 @@
 FactoryBot.define do
-  factory :user do
-    id_tn { 110 }
-    tn { 101_101 }
-    phone { '50-50' }
+  factory :user, class: User do
+    id_tn { 2709 }
+    tn { 24_125 }
+    phone { '24-80' }
     division { 714 }
-    email { nil }
-    login { 'TestLK' }
-    fullname { 'Тест Личного кабинета' }
-    password { 'xxxx1234' }
+    fullname { 'Дрянных Алексей Геннадьевич' }
 
     after(:build) do |user, ev|
       unless ev.role
