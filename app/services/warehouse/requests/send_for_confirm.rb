@@ -12,7 +12,7 @@ module Warehouse
 
       def run
         load_request
-        update_status_and_confirm_order
+        confirm_order
 
         true
       rescue RuntimeError => e
@@ -26,25 +26,12 @@ module Warehouse
 
       def load_request
         @request = Request.find(@request_id)
-        # Rails.logger.info "current_user: #{@current_user.inspect}".green
 
-        # authorize @request, :send_for_confirm?
+        authorize @request, :send_for_confirm?
       end
 
-      def update_status_and_confirm_order
-        @request.status = 'waiting_confirmation_for_user'
-        Rails.logger.info "request: #{@request.inspect}".red
-
-        if @request.save && Orders::Confirm.new(current_user, @order_id).run
-          @request.order.set_validator(@current_user)
-          send_into_orbita
-        else
-          false
-        end
-      end
-
-      def send_into_orbita
-        Orbita.add_event(@request.number_orbita, @current_user.id_tn, 'workflow', { message: "Ордер №#{@request.order.id} подтверждён" })
+      def confirm_order
+        return if Orders::Confirm.new(current_user, @order_id).run
       end
     end
   end
